@@ -1,5 +1,4 @@
-# FSDC
-A Feature Selection Framework Based on Supervised  Data Clustering
+# FSDC: A Feature Selection Framework Based on Supervised  Data Clustering
 
 paper: 
 Liu H , Fu B , Jiang Z , et al. A feature selection framework based on supervised data clustering[C]// IEEE International Conference on Cognitive Informatics & Cognitive Computing. IEEE, 2017.
