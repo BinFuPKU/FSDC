@@ -15,7 +15,7 @@ libs can be downloaded freely from internet.
 The source code is a demo used for academic exchange!
 
 
-Bibtex
+Bibtex:
 ```
 @inproceedings{DBLP:conf/IEEEicci/LiuFJWH16,
   author    = {Hongzhi Liu and
