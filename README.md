@@ -4,6 +4,7 @@ A Feature Selection Framework Based on Supervised  Data Clustering
 paper: 
 Liu H , Fu B , Jiang Z , et al. A feature selection framework based on supervised data clustering[C]// IEEE International Conference on Cognitive Informatics & Cognitive Computing. IEEE, 2017.
 
+Abstract:
 Feature selection is an important step for data mining and machine learning to deal with the curse of dimensionality. In this paper, we propose a novel feature selection framework based on supervised data clustering. Instead of assuming there only exists low-order dependencies between features and the target variable, the proposed method directly estimates the high-dimensional mutual information between a candidate feature subset and the target variable through supervised data clustering. In addition, it can automatically determine the number of features to be selected instead of manually setting it in a prior. Experimental results show that the proposed method performs similar or better compared with state-of-the-art feature selection methods.
 
 **Running Requirements:**
