@@ -6,13 +6,15 @@ Liu H , Fu B , Jiang Z , et al. A feature selection framework based on supervise
 
 Feature selection is an important step for data mining and machine learning to deal with the curse of dimensionality. In this paper, we propose a novel feature selection framework based on supervised data clustering. Instead of assuming there only exists low-order dependencies between features and the target variable, the proposed method directly estimates the high-dimensional mutual information between a candidate feature subset and the target variable through supervised data clustering. In addition, it can automatically determine the number of features to be selected instead of manually setting it in a prior. Experimental results show that the proposed method performs similar or better compared with state-of-the-art feature selection methods.
 
-
-Run requirments:
-Java 1.7+
-libs including Weka/jxl which can be downloaded freely from internet.
+**Running Requirements:**
+* Java 1.7+
+* Weka.jar
+* jxl.jar
+libs can be downloaded freely from internet.
 The source code is a demo used for academic exchange!
 
-
+Bibtex
+```
 @inproceedings{DBLP:conf/IEEEicci/LiuFJWH16,
   author    = {Hongzhi Liu and
                Bin Fu and
@@ -32,3 +34,4 @@ The source code is a demo used for academic exchange!
   biburl    = {https://dblp.org/rec/bib/conf/IEEEicci/LiuFJWH16},
   bibsource = {dblp computer science bibliography, https://dblp.org}
 }
+```
