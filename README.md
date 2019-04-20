@@ -7,8 +7,8 @@ Abstract:
 Feature selection is an important step for data mining and machine learning to deal with the curse of dimensionality. In this paper, we propose a novel feature selection framework based on supervised data clustering. Instead of assuming there only exists low-order dependencies between features and the target variable, the proposed method directly estimates the high-dimensional mutual information between a candidate feature subset and the target variable through supervised data clustering. In addition, it can automatically determine the number of features to be selected instead of manually setting it in a prior. Experimental results show that the proposed method performs similar or better compared with state-of-the-art feature selection methods.
 
 **Running Requirements:**
-* Java 1.7+
-* Weka.jar
+* jdk 1.7+
+* weka.jar
 * jxl.jar
 
 libs can be downloaded freely from internet.
