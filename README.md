@@ -6,7 +6,7 @@ Feature selection is an important step for data mining and machine learning to d
 
 Run requirments:
 Java 1.7+
-libs including KEEL/Weka which can be downloaded freely from internet.
+libs including Weka/jxl which can be downloaded freely from internet.
 The source code is a demo used for academic exchange!
 
 
