@@ -10,8 +10,10 @@ Feature selection is an important step for data mining and machine learning to d
 * Java 1.7+
 * Weka.jar
 * jxl.jar
+
 libs can be downloaded freely from internet.
 The source code is a demo used for academic exchange!
+
 
 Bibtex
 ```
