@@ -4,164 +4,26 @@ import java.io.File;
 import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
 
 import preprocess.Filter_;
-import cluster.MyClusterer;
-import cluster.K.MakeDensityBasedClusterer_;
 import excel.BiTuples;
 import tools.IO;
-import weka.clusterers.AbstractClusterer;
 import weka.core.Instances;
 import weka.core.converters.ArffLoader;
 
-public class Select {
+public class SelectAttr {
 	private static DecimalFormat df   = new DecimalFormat("######0.000000");
-	private static SelectAttr sa;
+	private static SelectK selectK;
 //	private static double skip_margin = 0.05;
-	private static double delta_t;
-	private static int window_len;
-	private static MyClusterer mc=null;
 	
-	public Select(double delta_t, String cluster){
-		this.delta_t=delta_t;
-		this.mc=new MyClusterer(cluster);
-	}
-
-	public static void setWindow_len(int window_len) {
-		Select.window_len = window_len;
-	}
-
-
-
-	//Entropy
-	private  double Entropy(String [] labels){
-		HashMap<String, Integer> hm_label=new HashMap<String, Integer>();
-		double size_=labels.length;
-		for(int i=0;i<size_;i++){
-			hm_label.put(labels[i], hm_label.getOrDefault(labels[i], 0)+1);
-		}
-		double entropy=0;
-		Iterator iter = hm_label.entrySet().iterator();
-		while (iter.hasNext()) {
-			HashMap.Entry entry = (HashMap.Entry) iter.next();
-			String key = (String) entry.getKey();
-			int val = (Integer) entry.getValue();
-			entropy+=(val/size_)*Math.log(val/size_);
-		}
-		return Double.parseDouble(df.format(entropy));
+	public SelectAttr(double delta_t, String cluster){
+		selectK = new SelectK(delta_t,cluster);
 	}
 	
-	//mutualInfor
-	private  double mutualInfor(String [] targets, String [] labels){
-		if (targets.length!=labels.length){
-			System.out.println("len(targets)!=len(labels)");
-			System.exit(1);
-		}
-		HashMap<String, Integer> hm_target_label=new HashMap<String, Integer>();
-		HashMap<String, Integer> hm_target=new HashMap<String, Integer>();
-		HashMap<String, Integer> hm_label=new HashMap<String, Integer>();
-		double size_=(double)targets.length;
-		for(int i=0;i<size_;i++){
-			String key=targets[i]+"_"+labels[i];
-			hm_target_label.put(key, hm_target_label.getOrDefault(key,0)+1);
-			hm_target.put(targets[i], hm_target.getOrDefault(targets[i], 0)+1);
-			hm_label.put(labels[i], hm_label.getOrDefault(labels[i], 0)+1);
-		}
-		double mi=0;
-		
-		Iterator iter = hm_target_label.entrySet().iterator();
-		while (iter.hasNext()) {
-			HashMap.Entry entry = (HashMap.Entry) iter.next();
-			String key = (String) entry.getKey();
-			int val = (Integer) entry.getValue();
-			String [] snames=key.split("_");
-//			System.out.println("\t\t"+hm_target.get(snames[0])/size_);
-			mi+=(val/size_)*Math.log((val/size_)/((hm_target.get(snames[0])/size_)*(hm_label.get(snames[1])/size_)));
-		}
-//		System.out.println(mi);
-		return Double.parseDouble(df.format(mi));
-	
+	public void setWindow_len(int window_len){
+		selectK.setWindow_len(window_len);
 	}
-	// find the last efficient result
-	private int binaryFindEnd(Instances train,String [] labels,int numClasses){
-//		System.out.println("binaryFindEnd:");
-		boolean flag=false;
-		int start=(numClasses>2?2:numClasses);//(int)Math.sqrt(train.size());
-		int end=train.numInstances();
-		int mid=(start+end)/2;
-		try {
-			mc.run(train,end);
-		} catch (Exception e) {
-			flag=true;
-		}
 
-		while (flag && start<end-1){
-			try {
-				mc.run(train,mid);
-				start=mid;
-				mid=(start+end)/2;
-			} catch (Exception e) {
-				end=mid;
-				mid=(start+end)/2;
-			}
-		}
-		if (flag)
-			return mid;
-		else
-			return end;
-	}
-	private double [] maxMI(Instances train,String [] labels,int numClasses,String path) throws Exception{
-//		System.out.println("maxMI:");
-		double [] rs=new double[2];
-		int maxK=0;
-		double maxMI=0;
-		// numClasses->train.size()
-		int start=(numClasses>2?2:numClasses);//(int)Math.sqrt(train.size());
-		int end=binaryFindEnd(train,labels,numClasses);
-		double pre_mi=0;
-		System.out.println("\t\t\tSearchBestKStart(start,end)=("+start+","+end+")");
-//		double [] window_logn=new double[(int)Math.log(end)];->window
-		double [] window= new double[window_len];
-		int i_log=0;
-		boolean logn_flag=false;
-		int i=start;
-		for (;i<=end;i++){
-			String [] targets=mc.run(train,i);//
-			double mi = mutualInfor(targets,labels);///Math.log(i);//((Entropy(targets)+Entropy(labels))/i);
-			if (mi>maxMI){
-				maxMI=mi;
-				maxK=i;
-			}
-			if (i!=start){
-				window[i_log++]=(mi-pre_mi)/mi;
-				if (i_log>=window.length){
-					i_log=i_log%window_len;
-					logn_flag=true;
-				}
-			}
-			//check
-			boolean break_flag=false;
-			if (logn_flag){
-				int m=0;
-				while(m<window.length && window[m]<=delta_t)
-					m+=1;
-				if (m>=window.length)
-					break_flag=true;
-			}
-			//
-			if (break_flag)
-				break;
-			pre_mi=mi;
-		}
-		System.out.println("\t\t\tSearchBestKEnd:(maxK,MaxSMI)=("+maxK+","+maxMI+")");
-		IO.append(path,"\t\t\tMaxSMI("+"maxK,maxMI)= ("+maxK+","+maxMI+") end:("+i+")\r\n" );
-		rs[0]=maxK;
-		rs[1]=maxMI;
-		return rs;
-	}
-	
 	private Double [] select(Instances train,int currentFold, ArrayList<Integer> choose, ArrayList<Integer> left, String path){
 //		System.out.println("select:");
 		int na=train.numAttributes()-1;
@@ -183,7 +45,7 @@ public class Select {
 			double maxMI_k=0;
 			double[] rss=new double[2];
 			try {
-				rss = maxMI(newtrain,labels,numClasses,path);
+				rss = selectK.maxMI(newtrain,labels,numClasses,path);
 				IO.append(path, currentFold+"\tTry:(i,k,MI)=("+left.get(i)+","+(int)rss[0]+","+rss[1]+")\r\n");
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
@@ -281,7 +143,7 @@ public class Select {
 		String indirpath="D:\\聚类论文\\源代码\\10_";
 		String outdirpath="D:\\聚类论文\\源代码\\result\\excel\\k-means_sqrt(n)_n";
 		
-		Select select = new Select(0.5,"mdbc");
+		Select_ select = new Select_(0.5,"mdbc");
 		File outdir=new File(outdirpath);
 		if  (!outdir.exists())
 			outdir.mkdir(); 

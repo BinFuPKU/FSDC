@@ -16,21 +16,20 @@ import weka.clusterers.AbstractClusterer;
 import weka.core.Instances;
 import weka.core.converters.ArffLoader;
 
-public class Select {
+public class Select_ {
 	private static DecimalFormat df   = new DecimalFormat("######0.000000");
-	private static SelectAttr sa;
 //	private static double skip_margin = 0.05;
 	private static double delta_t;
 	private static int window_len;
 	private static MyClusterer mc=null;
 	
-	public Select(double delta_t, String cluster){
+	public Select_(double delta_t, String cluster){
 		this.delta_t=delta_t;
 		this.mc=new MyClusterer(cluster);
 	}
 
 	public static void setWindow_len(int window_len) {
-		Select.window_len = window_len;
+		Select_.window_len = window_len;
 	}
 
 
@@ -281,7 +280,7 @@ public class Select {
 		String indirpath="D:\\聚类论文\\源代码\\10_";
 		String outdirpath="D:\\聚类论文\\源代码\\result\\excel\\k-means_sqrt(n)_n";
 		
-		Select select = new Select(0.5,"mdbc");
+		Select_ select = new Select_(0.5,"mdbc");
 		File outdir=new File(outdirpath);
 		if  (!outdir.exists())
 			outdir.mkdir(); 
