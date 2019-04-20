@@ -10,20 +10,22 @@ libs including Weka/jxl which can be downloaded freely from internet.
 The source code is a demo used for academic exchange!
 
 
-@proceedings{DBLP:conf/IEEEicci/2016,
-  editor    = {Yingxu Wang and
-               Newton Howard and
-               Bernard Widrow and
-               Konstantinos N. Plataniotis and
-               Lotfi A. Zadeh},
-  title     = {15th {IEEE} International Conference on Cognitive Informatics {\&}
+@inproceedings{DBLP:conf/IEEEicci/LiuFJWH16,
+  author    = {Hongzhi Liu and
+               Bin Fu and
+               Zhengshen Jiang and
+               Zhonghai Wu and
+               D. Frank Hsu},
+  title     = {A feature selection framework based on supervised data clustering},
+  booktitle = {15th {IEEE} International Conference on Cognitive Informatics {\&}
                Cognitive Computing ,ICCI*CC 2016, Palo Alto, CA, USA, August 22-23,
                2016},
-  publisher = {{IEEE} Computer Society},
+  pages     = {316--321},
   year      = {2016},
-  url       = {http://ieeexplore.ieee.org/xpl/mostRecentIssue.jsp?punumber=7859033},
-  isbn      = {978-1-5090-3846-6},
-  timestamp = {Tue, 07 Mar 2017 12:40:24 +0100},
-  biburl    = {https://dblp.org/rec/bib/conf/IEEEicci/2016},
+  crossref  = {DBLP:conf/IEEEicci/2016},
+  url       = {https://doi.org/10.1109/ICCI-CC.2016.7862054},
+  doi       = {10.1109/ICCI-CC.2016.7862054},
+  timestamp = {Mon, 22 May 2017 17:11:10 +0200},
+  biburl    = {https://dblp.org/rec/bib/conf/IEEEicci/LiuFJWH16},
   bibsource = {dblp computer science bibliography, https://dblp.org}
 }
